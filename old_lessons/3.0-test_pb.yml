@@ -1,0 +1,28 @@
+---
+
+- name: exercise 3
+  hosts: nxos 
+ 
+  tasks:
+    - name: add vlans
+      nxos_vlan:
+        provider:
+          "{{ nxapi }}"
+        vlan_id: "{{ item.vlan_id }}"
+        admin_state: "{{ item.admin_state }}"
+        name: "{{ item.name }}"
+      with_items: "{{ vlans_total }}" 
+      tags:
+        - 3z
+      notify: save_config
+
+  handlers:
+    - name: save_config
+      nxos_config:
+        lines:
+          - copy run start 
+        provider:
+          "{{ ssh }}"
+      tags: 4z
+
+

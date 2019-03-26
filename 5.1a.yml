@@ -1,0 +1,37 @@
+---
+
+- name: exercise 5.1a
+  hosts: pynet-rtr1
+  gather_facts: no
+
+  tasks:
+    - name: napalmGetFacts
+      napalm_get_facts:
+        provider: "{{ iosssh }}"
+        dev_os: ios
+        filter:
+          "lldp_neighbors"
+      register: lldp
+
+    - name: displayLlpd
+      debug:
+        msg: "{{ lldp }}"
+     
+    - name: drillDown
+      set_fact:
+        lldpDrillDown: "{{ lldp.ansible_facts.napalm_lldp_neighbors }}"
+ 
+    - name: displayDrillDown
+      debug:
+        msg: "{{ lldpDrillDown }}" 
+
+
+      
+    - name: drillDownAlt
+      set_fact:
+        lldpDrillDownAlt: "{{ lldpDrillDown[item][0] }}"
+      with_items: "{{ lldpDrillDown }}"
+ 
+    - name: displayDrillDown
+      debug:
+        msg: "{{ lldpDrillDownAlt }}" 

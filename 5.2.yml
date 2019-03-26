@@ -1,0 +1,16 @@
+---
+
+- name: exercise 5.2
+  hosts: nxos
+  gather_facts: no
+
+  tasks:
+    - name: setIntEth2_4
+      napalm_install_config:
+        commit_changes: True
+        replace_config: False
+        provider: "{{ napalm_api }}"
+        config_file: "host_configs/nxos/{{inventory_hostname}}/eth2_4.cfg"
+        get_diffs: True
+        diff_file: "diffs/{{inventory_hostname}}.diffs"
+        

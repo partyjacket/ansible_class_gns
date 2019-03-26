@@ -1,0 +1,17 @@
+---
+
+- name: lesson 4.1
+  hosts: arista 
+
+
+  tasks:
+    - name: get info
+      eos_facts:
+        provider: "{{ eapi }}"
+      register: get_facts
+
+    - name: addIpRoute
+      eos_config:
+        provider: "{{ eapi }}"
+        src: /home/jpatterson/class_exercises/group_vars/arista/staticRoutesArista.j2
+      tags: route

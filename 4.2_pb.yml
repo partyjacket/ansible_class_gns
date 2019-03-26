@@ -1,0 +1,71 @@
+---
+
+- name: lesson 4.1
+  hosts: 
+    - a1
+    - a2
+    - a3
+    - a4  
+  gather_facts: no
+
+
+  tasks:
+    - name: get info
+      eos_facts:
+        provider: "{{ eapi }}"
+      register: get_facts
+
+    - name: addIpRoutes
+      eos_config:
+        provider: "{{ eapi }}"
+        lines:
+          - "ip route {{ item }} 10.220.88.1"
+      with_items: "{{ routeSetOne }}"   
+      tags: route
+
+    - name: addVlans
+      eos_config:
+        provider: "{{ eapi }}"   
+        src: group_vars/arista/aristaVlans.j2
+      register: addvlan
+      tags: vlanFromSrc
+
+    - debug:
+        msg: "{{ addvlan }}"
+      tags: vlanFromSrc
+
+    - name: addJpatterson
+      eos_config:
+        provider: "{{ eapi }}"
+        lines:
+          - username jpatterson privilege 15 secret P3pp3r101! 
+      tags: baseUser
+
+    - name:
+      eos_config: 
+        provider: "{{ eapi }}"
+        lines:
+          - "username jpatterson sshkey {{ aristaPubKey }}"
+      tags: pubKey
+
+    - name: vlansFromList
+      eos_config:
+        lines: "{{ item }}"
+        parents: "{{ item }}"
+      with_items: "{{ vlanSetTen }}"
+      tags: vlansFromList
+      register: vlansFromList
+
+    - debug:
+        msg: "{{ vlansFromList }}"
+      tags: vlansFromList
+
+
+    - name: vlansFromDict
+      eos_config:
+        provider: "{{ eapi }}"
+        parents: "vlan {{ item.value.vid }}"
+        lines:
+          - "name {{ item.value.vname }}"
+      with_dict: "{{ vlanSetTenDict }}"
+      tags: vlansFromDict

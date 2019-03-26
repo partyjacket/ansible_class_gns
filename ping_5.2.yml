@@ -1,0 +1,22 @@
+---
+
+- name: verify
+  hosts: nxos2
+  gather_facts: no
+
+  tasks:
+    - name: ping
+      napalm_ping:
+        username: pyclass
+        password: 88newclass
+        dev_os: nxos
+        optional_args:
+          port: 8443
+        hostname: "{{ ansible_host }}"
+        ping_timeout: 60
+        destination: 10.220.88.1
+        count: 10
+      register: ping
+
+    - debug:
+        msg: "{{ ping }}"

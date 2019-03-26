@@ -1,0 +1,23 @@
+---
+
+- name: exercise 5.2b
+  hosts: nxos
+  gather_facts: no
+
+  tasks: 
+    - name: interfacesIp
+      napalm_get_facts:
+        provider: "{{ napalm_api }}" 
+        filter:
+          interfaces_ip
+      register: interfacesIp
+
+    - name: set_fact_eth2_4Ip
+      set_fact:
+        eth2_ip: "{{ item.key }}"
+      with_dict: "{{ interfacesIp.ansible_facts.napalm_interfaces_ip['Ethernet2/4'].ipv4 }}"
+    
+    - debug:
+        msg: "{{ eth2_ip }}"
+
+

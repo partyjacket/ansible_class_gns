@@ -1,0 +1,4 @@
+{% for route in routeSetYml %}
+ip route 1.1.{{ route|string() }}/32 10.220.88.2
+{% endfor %}
+

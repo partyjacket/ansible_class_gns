@@ -1,0 +1,24 @@
+---
+
+nxssh:
+  transport: cli 
+  username: "{{ username }}"
+  password: "{{ password }}"
+  host: "{{ ansible_host }}"
+
+nxapi:
+  transport: nxapi
+  username: "{{ username }}"
+  password: "{{ password }}"
+  host: "{{ ansible_host }}"
+  use_ssl: yes 
+  validate_certs: no
+  port: 8443
+
+napalm_api:
+  username: "{{ username }}"
+  password: "{{ password }}"
+  dev_os: nxos
+  optional_args:
+    port: 8443
+  

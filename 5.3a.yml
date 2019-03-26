@@ -1,0 +1,41 @@
+---
+
+- name: exercise 5.3
+  hosts: nxos
+  gather_facts: no
+
+  tasks:
+    - name: setIntEth2_4
+      napalm_install_config:
+        commit_changes: True
+        replace_config: False
+        provider: "{{ napalm_api }}"
+        config_file: "host_configs/nxos/{{inventory_hostname}}/bgp.cfg"
+        get_diffs: True
+        diff_file: "diffs/{{inventory_hostname}}.diffs"
+        
+    - name: getBgpStatus
+      napalm_get_facts:
+        provider: "{{ napalm_api }}"
+        filter:
+          bgp_neighbors
+      tags: bgp
+      register: getBgpStatus
+
+    - name: getBgpStatusResults
+      debug:
+        msg: "{{ getBgpStatus }}"
+      tags: bgp
+
+    - set_fact:
+        bgpPeer: "{{ napalm_bgp_neighbors.global.peers }}"
+      tags: bgp
+
+    - debug:
+        msg: "{{ bgpPeer }}"
+      tags: bgp
+
+    - assert:
+        that: "{{ bgpPeer[item].is_up }}"
+      with_items: "{{ bgpPeer }}"
+      tags: bgp

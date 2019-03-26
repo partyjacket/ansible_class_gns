@@ -1,0 +1,9 @@
+---
+
+- name: excersize 3c
+  hosts: local
+  
+  tasks:
+    - name: use ping
+      ping:
+

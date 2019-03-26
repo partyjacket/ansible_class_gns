@@ -1,0 +1,12 @@
+---
+
+vlanSetTenDict:
+  - web: 
+      vid: "{{ globalVlans.web }}"
+      vname: web
+  - app:
+      vid: "{{ globalVlans.app }}"
+      vname: app
+  - dbase:
+      vid: "{{ globalVlans.dbase }}"
+      vname: dbase

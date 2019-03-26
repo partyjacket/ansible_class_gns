@@ -1,0 +1,13 @@
+---
+
+- name: exercise_4.4
+  hosts: ios
+  gather_facts: no
+
+  tasks:
+    - name: snmpIos
+      ios_config:
+        provider: "{{ iosssh }}"
+        lines: "{{ item }}"
+      with_items: "{{ snmpIos }}" 
+      

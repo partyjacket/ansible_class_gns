@@ -1,0 +1,41 @@
+[local]
+localhost ansible_connection=local
+
+
+[all:vars]
+ansible_connection=local
+ansible_python_interpreter=/home/jpatterson/VENV/ansible/bin/python 
+
+
+[ios]
+pynet-rtr1 ansible_host=184.105.247.70
+pynet-rtr2 ansible_host=184.105.247.71
+
+
+[arista]
+pynet-sw5 ansible_host=arista5.lasthop.io
+pynet-sw6 ansible_host=arista6.lasthop.io
+pynet-sw7 ansible_host=arista7.lasthop.io
+pynet-sw8 ansible_host=arista8.lasthop.io
+
+[short_arista]
+a1 ansible_host=arista5.lasthop.io
+a2 ansible_host=arista6.lasthop.io
+a3 ansible_host=arista7.lasthop.io
+a4 ansible_host=arista8.lasthop.io
+
+[juniper]
+srx1 ansible_host=srx1.lasthop.io
+
+[nxos]
+nxos1 ansible_host=nxos1.lasthop.io
+nxos2 ansible_host=nxos2.lasthop.io
+
+[ios:vars]
+#ansible_user=pyclass
+#ansible_ssh_pass=88newclass
+#ansible_connection=network_cli
+#ansible_become=yes
+#ansible_become_method=enable
+#ansible_become_pass=88netclass
+#ansible_network_os=ios

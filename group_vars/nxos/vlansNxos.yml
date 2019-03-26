@@ -1,0 +1,15 @@
+---
+
+vlans_common:
+  - vlan_id: 301 
+    admin_state: down
+    name: blue
+  - vlan_id: 302 
+    admin_state: down 
+    name: red
+  - vlan_id: 303 
+    admin_state: down
+    name: green
+
+vlans_total:
+  "{{ vlans_common }} + {{ vlans_unique|default([]) }}"

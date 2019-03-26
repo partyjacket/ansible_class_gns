@@ -1,0 +1,32 @@
+---
+
+- name: lesson 4.1
+  hosts: ios
+  vars:
+    creds:
+      username: "{{ username }}" #this comes from group_vars/all
+      password: "{{ password }}" #this comes from group_vars/all
+      host: "{{ ansible_host }}"
+
+
+  tasks:
+    - name: get info
+      ios_facts:
+        provider: "{{ creds }}"
+      register: get_facts
+
+    - name: config dns
+      ios_config:
+        provider: "{{ creds }}"
+        lines:
+          - "ip name-server {{ item }}" 
+      with_items: "{{ dns }}"
+#    - name: ping dns
+#      ios_ping:
+#        provider: "{{ creds }}"
+#        dest: 0.pool.ntp.org
+#        timeout: 30
+#      register: ping_result
+#
+#    - debug:
+#        msg: "{{ ping_result }}"

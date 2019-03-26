@@ -1,0 +1,25 @@
+---
+
+- name: lesson 4.1
+  hosts: pynet-sw5
+  vars:
+    creds:
+      username: "{{ username }}" #this comes from group_vars/all
+      password: "{{ password }}" #this comes from group_vars/all
+      host: "{{ ansible_host }}"
+
+
+  tasks:
+    - name: acl 
+      ios_config:
+        provider: "{{ creds }}"
+        parents: ip access-list test
+        lines:
+          - permit ip host 3.3.3.3 any
+          - permit ip host 1.1.1.1 any
+          - permit ip host 6.6.6.6 any
+          - permit ip host 5.5.5.5 any
+          - permit ip host 7.7.7.7 any
+        before: no ip access-list test
+        replace: block
+        match: line

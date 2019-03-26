@@ -1,0 +1,43 @@
+---
+
+- name: exercise 5.1a
+  hosts: nxos1
+  gather_facts: no
+
+  tasks:
+    - name: napalmGetFacts
+      napalm_get_facts:
+        provider: "{{ napalm_api }}"
+        dev_os: nxos
+        filter:
+          "lldp_neighbors"
+      register: lldp
+      tags:
+        test
+
+    - name: displayLlpd
+      debug:
+        msg: "{{ lldp }}"
+     
+    - name: drillDown
+      set_fact:
+        lldpDrillDown: "{{ lldp.ansible_facts.napalm_lldp_neighbors }}"
+ 
+    - name: displayDrillDown
+      debug:
+        msg: "{{ lldpDrillDown }}" 
+
+
+      
+    - name: drillDownAlt
+      set_fact:
+        lldpDrillDownAlt: "{{ lldpDrillDown[item][0] }}"
+      with_items: "{{ lldpDrillDown }}"
+ 
+    - name: displayDrillDown
+      debug:
+        msg: "{{ lldpDrillDownAlt }}" 
+
+    - assert:
+        that: lldpDrillDownAlt.hostname == "nxos2.twb-tech.com" 
+        success_msg: "yeay! it passed"

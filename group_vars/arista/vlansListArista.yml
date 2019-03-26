@@ -1,0 +1,11 @@
+---
+
+vlanSetTen:
+  - vlan 10
+  - vlan 12
+  - vlan 14
+
+vlanSetTwenty:
+  - vlan 20
+  - vlan 22
+  - vlan 24

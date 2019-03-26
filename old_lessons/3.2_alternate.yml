@@ -1,0 +1,64 @@
+---
+
+- name: exercise 3.23
+  hosts: nxos 
+ 
+  tasks:
+    - name: add_ip_interface 
+      nxos_l3_interface:
+        provider:
+          "{{ nxapi }}"
+        name: Ethernet2/1
+        ipv4: "{{ ipv4 }}"
+#      tags:
+
+    - name: ping_nxos1_nxos2
+      nxos_ping:
+        count: 2
+        provider:
+          "{{ ssh }}"
+        dest: 10.0.0.2
+      when: "'nxos1' in inventory_hostname"
+      register: ping_result
+     
+    - debug:
+        msg: "{{ ping_result }}"
+
+    - name: ping_nxos2_nxos1
+      nxos_ping:
+        count: 2
+        provider:
+          "{{ ssh }}"
+        dest: 10.0.0.1
+      when: "'nxos2' in inventory_hostname"
+      register: ping_result
+
+    - debug:
+        msg: "{{ ping_result }}"
+#    - name: set_snmp_location
+#      nxos_snmp_location:
+#        provider: "{{ nxapi }}"
+#        location: slc
+#
+#    - name: set_snmp_contact
+#      nxos_snmp_contact:
+#        provider: "{{ nxapi }}"
+#        contact: jpaaftterson
+#
+#      notify: 
+#        - save_config
+#
+#
+#
+#  handlers:        
+#    - name: ping_debug
+#      debug:
+#        var: ping_result
+#
+#    - name: save_config
+#      nxos_config:
+#        lines:
+#          - copy run start 
+#        provider:
+#          "{{ nxapi }}"
+#   

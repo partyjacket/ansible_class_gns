@@ -1,0 +1,13 @@
+---
+
+- name: exercise_4.3
+  hosts: nxos
+  gather_facts: no
+
+  tasks:
+    - name: nxosLoopback
+      nxos_config: 
+        provider: "{{ nxapi }}"
+        src: /home/jpatterson/class_exercises/group_vars/nxos/loopbackNxos.j2
+
+  

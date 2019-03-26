@@ -1,0 +1,46 @@
+---
+
+- name: exercise 2.3
+  hosts: cisco
+  
+  vars:
+    creds:
+       username: pyclass
+       password: 88newclass
+       host: "{{ ansible_host }}"
+  tasks:
+    - name: ios_commands_task
+      ios_command:
+        provider:
+          "{{ creds }}"
+        commands:
+          - show arp
+      register: show_arp
+      tags:
+        - 3a
+        - 3b
+        - 3c
+
+    - debug:
+        var: show_arp.stdout_lines
+      tags: 3a
+
+    - name: create new fact
+      set_fact:
+        show_arp_new: "{{ show_arp.stdout_lines[0] }}"
+      tags: 
+        - 3b
+        - 3c
+
+    - name: print new fact 
+      debug: 
+        msg: "{{ show_arp_new }}"
+      tags: 3b
+
+    
+    - name: print 10.220.88.1 to screen
+      debug:
+        msg: "{{ item }}"
+      with_items: "{{ show_arp_new }}"
+      when: " '10.220.88.1' in item "
+      tags: 3c

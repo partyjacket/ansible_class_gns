@@ -1,0 +1,51 @@
+---
+
+- name: exercise 2.4
+  hosts: pynet-sw7
+
+  vars:
+    creds:
+      username: pyclass
+      password: 88newclass
+      host: "{{ ansible_host }}"
+      transport: eapi
+      validate_certs: False
+
+  tasks:
+    - name: show_ip_arp
+      eos_command:
+        commands:
+          - show ip arp 
+        provider:
+          "{{ creds }}"
+      register: show_ip_arp
+      tags: 
+        - test
+        - 2d
+
+    - name: testing
+      debug:
+        var: show_ip_arp.stdout_lines[0].ipV4Neighbors.hwAddress
+      tags: test
+
+    - name: Create mac_table variableset_fact
+      set_fact:
+        mac_table: "{{ show_ip_arp.stdout_lines[0].ipV4Neighbors }}" 
+      tags: 2d      
+
+    - name:
+      debug:
+        var: mac_table
+      tags: 2d
+
+    - name: gateway_mac_fact
+      set_fact:
+        gateway_mac: "{{ item.hwAddress }}"
+      with_items: "{{ mac_table }}"
+      when: item.address == '10.220.88.1'
+      tags: 2d
+
+    - name: show_gateway_fact 
+      debug:
+        msg: "{{ gateway_mac }}" 
+      tags: 2d      

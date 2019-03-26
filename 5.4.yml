@@ -1,0 +1,19 @@
+---
+
+- name: exercise 5.4
+  hosts: pynet-sw8
+  gather_facts: no
+
+
+  tasks:
+    - name: configReplace
+      napalm_install_config:
+        username: pyclass
+        password: 88newclass
+        dev_os: eos
+        hostname: "{{ ansible_host }}"
+        config_file: "host_configs/arista/pynet-sw8/pynet-sw8.cfg"
+        get_diffs: True
+        diff_file: "diffs/{{ inventory_hostname }}.diffs"
+        commit_changes: False
+        replace_config: False

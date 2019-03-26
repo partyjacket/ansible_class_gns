@@ -1,0 +1,15 @@
+---
+
+essh:
+  username: pyclass
+  password: 88newclass
+  transport: cli
+  host: "{{ ansible_host }}"
+
+eapi:
+  username: "{{ username }}"
+  password: "{{ password }}"
+  transport: eapi
+  use_ssl: True
+  validate_certs: False
+  host: "{{ ansible_host }}"

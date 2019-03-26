@@ -1,0 +1,6 @@
+---
+
+vlans_unique:
+  - vlan_id: 304 
+    admin_state: down
+    name: yellow

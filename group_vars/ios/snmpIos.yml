@@ -1,0 +1,7 @@
+---
+
+snmpIos:
+  - "snmp-server contact {{ snmp.contact }}"
+  - "snmp-server location {{ snmp.location }}"
+
+

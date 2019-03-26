@@ -1,0 +1,76 @@
+---
+
+- name: exercise 2.2
+  hosts: cisco
+  vars:
+    - creds:
+        username: pyclass
+        password: 88newclass
+        host: "{{ ansible_host }}" 
+
+    
+  tasks:
+    - name: run ios_facts
+      ios_facts:
+        provider:
+          "{{ creds }}"
+      register: result
+      tags:
+        - 2a
+        - 2b
+        - 2c
+        - 2d
+        - test
+        - test2
+ 
+    - name: exercise 2.2a 
+      debug:
+        msg: "{{ ansible_net_all_ipv4_addresses }}"
+      when: " '10.220.88.21' in ansible_net_all_ipv4_addresses"
+      tags: 2a
+  
+    - name: exercisei 2.2b
+      debug:
+        msg: "{{ item.key  }}" 
+      with_dict: "{{ ansible_net_interfaces }}"
+      tags: 2b
+
+    - name: exersise 2.2c
+      debug:
+        msg: "{{ item.key}}"
+      with_dict: "{{ ansible_net_interfaces }}"
+      when: item.value.operstatus == 'up'
+      tags: 2c
+
+    - debug: 
+        msg: this is a test to see if the tag works
+      tags: 2b
+
+    - name: exercise 2.2d
+      debug:
+        var: result
+      tags: 2d
+
+    - name: skylar
+      debug:
+        msg: "{{ ansible_net_model }}"
+      when: ansible_net_model == '881'
+      tags: 2d
+  
+    - name: justtest
+      debug:
+        msg: "{{ ansible_net_filesystems_info['flash:'].spacefree_kb }}"
+      tags: test      
+
+    - name: test2
+      debug: 
+        msg: "{{ item.value.spacetotal_kb }} "
+      with_dict: "{{ ansible_net_filesystems_info }}"
+      tags: test
+
+    - name: test3
+      debug:
+        msg: test " {{ item.value }}"
+      with_dict: "{{ ansible_net_filesystems_info }}"
+      when: "'spacefree_kb' in ansible_net_filesystems_info['flash:']"
+      tags: test2 

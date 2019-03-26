@@ -1,0 +1,7 @@
+
+
+snmp: 
+  contact: jpatterson
+  location: slc
+  readOnly: public
+  readWrite: private

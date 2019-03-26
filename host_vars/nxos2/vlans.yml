@@ -1,0 +1,9 @@
+---
+
+vlans_unique:
+  - vlan_id: 305 
+    admin_state: up
+    name: orange
+  - vlan_id: 306 
+    admin_state: up
+    name: gray

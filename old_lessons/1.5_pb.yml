@@ -1,0 +1,20 @@
+---
+
+- name: excersize 5
+  hosts: cisco
+  vars:
+    - ntp_server1: 20.20.20.20
+    - ntp_server2: 20.20.20.30
+
+  tasks:
+    - name: collect debug output - excersize 5.d
+      debug: 
+        msg:
+          - "{{ inventory_hostname}}"
+          - "{{ ansible_host }}"
+          - "{{ as_num }}"
+          - "{{ remote_as_number }}"
+          - "{{ ntp_server1 }}"
+          - "{{ ntp_server2 }}"
+
+      

@@ -1,0 +1,6 @@
+---
+
+iosssh:
+  username: "{{ username }}"
+  password: "{{ password }}"
+  host: "{{ ansible_host }}"
